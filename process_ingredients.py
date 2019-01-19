@@ -60,14 +60,34 @@ def get_ingredients_proportion(product_name):
 
 	#building B matrix
 	product_nutri = []
-	for items in nutri:
-		product_nutri.append(product_values[items])
+	for n in nutri:
+		product_nutri.append(product_values[n])
+	product_nutri.append(1)
 	print product_nutri
 	product_nutri_matrix  = np.array(product_nutri)
 
 	#building A matrix
-	for items in product_ingredients:
+	ingredients_nutri = []
+	for i in product_ingredients:
 		ingredient_nutri = []
+		for n in nutri:
+			ingredient_nutri.append(i[n])
+		ingredient_nutri.append(1)
+		print "les valeurs nutri du premier ingredient sont :"
+		print ingredient_nutri
+		ingredients_nutri.append(ingredient_nutri)
+	
+
+	print "***"
+	print ingredients_nutri
+	ingredients_nutri_matrix = np.array(ingredients_nutri)
+	print ingredients_nutri_matrix.T
+	print product_nutri_matrix.T
+	#resolution
+	proportions_matrix = np.linalg.lstsq(ingredients_nutri_matrix.T, product_nutri_matrix.T)
+	print "les proportions des ingredients sont :"
+	print proportions_matrix
+
 
 
 
