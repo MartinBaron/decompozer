@@ -2,6 +2,7 @@ import os
 import sqlite3
 import sys
 import numpy as np
+from scipy.optimize import nnls 
 
 
 #STORING PRODUCT NUTRITIONNAL VALUES
@@ -82,19 +83,19 @@ def get_ingredients_proportion(product_name):
 	print ingredients_nutri
 	ingredients_nutri_matrix = np.array(ingredients_nutri)
 	print ingredients_nutri_matrix.T
-	print product_nutri_matrix.T
+	print product_nutri_matrix
 	#resolution
-	proportions_matrix = np.linalg.lstsq(ingredients_nutri_matrix.T, product_nutri_matrix.T)
+	proportions_matrix = np.linalg.lstsq(ingredients_nutri_matrix.T, product_nutri_matrix)
+	proportions_matrix2, rnorm = nnls(ingredients_nutri_matrix.T, product_nutri_matrix)
 	print "les proportions des ingredients sont :"
-	print proportions_matrix
+	print proportions_matrix2
 
 
 
 
 
 if __name__ == '__main__':
-	#product_name = raw_input("Give the product name in capital letters \n")
-    product_name = 'CHOCOLAT BONNAT'
+    product_name = raw_input("Give the product name in capital letters \n")
     print "***"
     print product_name
     sqlite_file = '/Users/robinarmant/workspace/food/nutrition.db'
